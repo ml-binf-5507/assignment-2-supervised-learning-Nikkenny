@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.linear_model import ElasticNet
 from sklearn.metrics import r2_score
-
+from sklearn.model_selection import GridSearchCV
 
 def train_elasticnet_grid(X_train, y_train, l1_ratios, alphas):
     """
@@ -33,12 +33,32 @@ def train_elasticnet_grid(X_train, y_train, l1_ratios, alphas):
     """
     # TODO: Implement grid search
     # - Create results list
+
     # - For each combination of l1_ratio and alpha:
     #   - Train ElasticNet model with max_iter=5000
+    param_grid = {
+    'l1_ratio': [0.3, 0.5, 0.7],
+    'alpha': [0.01, 0.1, 1.0]
+    }
+
+    gs = GridSearchCV(
+    ElasticNet(random_state=42),
+    param_grid,
+    cv=5,           
+    scoring='r2',   
+    n_jobs=-1 
+    )
+
+    gs.fit(X_train, y_train)
+    y_pred = gs.predict(X_train)
+    
     #   - Calculate R² score on training data
+    r2_score(y_train, y_pred)
     #   - Store results
+    r2 = r2_score(y_train, y_pred)
     # - Return DataFrame with results
-    pass
+    results_df = r2
+    return results_df
 
 
 def create_r2_heatmap(results_df, l1_ratios, alphas, output_path=None):
@@ -63,12 +83,18 @@ def create_r2_heatmap(results_df, l1_ratios, alphas, output_path=None):
     """
     # TODO: Implement heatmap creation
     # - Pivot results_df to create matrix with l1_ratio on x-axis, alpha on y-axis
+    heart_pivot = results_df.pivot(index='l1_ratio', columns='alpha', values='r2')
+    sns.heatmap(data = heart_pivot, annot=True, cmap='viridis') 
+    plt.xlabel('L1 Ratio')
+    plt.ylabel('Alpha')
+    plt.title('ElasticNet Heatmap')   
     # - Create heatmap using seaborn
     # - Set labels: "L1 Ratio", "Alpha", "R² Score"
     # - Add colorbar
     # - Save to output_path if provided
-    # - Return figure object
-    pass
+    # - Return figure objet
+    return sns
+
 
 
 def get_best_elasticnet_model(X_train, y_train, X_test, y_test, 
@@ -112,3 +138,5 @@ def get_best_elasticnet_model(X_train, y_train, X_test, y_test,
     # - Select model with highest test R² (not training R²)
     # - Return dictionary with best model and parameters
     pass
+
+results_df = train_elasticnet_grid(2, 4, 0.6, 0.2)

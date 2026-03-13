@@ -39,10 +39,13 @@ def train_logistic_regression_grid(X_train, y_train, param_grid=None):
     
     # TODO: Implement grid search for logistic regression
     # - Create LogisticRegression with max_iter=1000
+    log_reg = LogisticRegression(max_iter=1000)
     # - Use GridSearchCV with cv=5
+    grid_cv = GridSearchCV(log_reg, cv=5)
     # - Fit on training data
+    grid_cv.fit(X_train, y_train)
     # - Return fitted GridSearchCV object
-    pass
+    return grid_cv
 
 
 def train_knn_grid(X_train, y_train, param_grid=None):
@@ -75,10 +78,13 @@ def train_knn_grid(X_train, y_train, param_grid=None):
     
     # TODO: Implement grid search for k-NN
     # - Create KNeighborsClassifier
+    knn = KNeighborsClassifier()
     # - Use GridSearchCV with cv=5
+    grid_cv = GridSearchCV(knn, cv=5)
     # - Fit on training data
+    grid_cv.fit(X_train, y_train)
     # - Return fitted GridSearchCV object
-    pass
+    return grid_cv
 
 
 def get_best_logistic_regression(X_train, y_train, X_test, y_test, param_grid=None):

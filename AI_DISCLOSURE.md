@@ -24,7 +24,7 @@ Do NOT:
 
 **Did you use any AI tools to help with this assignment?**
 
-_____ Yes     _____ No
+_____ Yes     ___X__ No
 
 **If yes, please tell us:**
 
