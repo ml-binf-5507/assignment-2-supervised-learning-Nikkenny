@@ -116,7 +116,10 @@ def get_best_logistic_regression(X_train, y_train, X_test, y_test, param_grid=No
     # - Use train_logistic_regression_grid
     # - Extract best model
     # - Return dictionary
-    pass
+    results = {'model': model.best_estimator_,
+               'best_params': model.best_params_,
+               'cv_results_df': pdDataframe(model.cv_results_)}
+    
 
 
 def get_best_knn(X_train, y_train, X_test, y_test, param_grid=None):
@@ -149,4 +152,10 @@ def get_best_knn(X_train, y_train, X_test, y_test, param_grid=None):
     # - Use train_knn_grid
     # - Extract best model and best_k
     # - Return dictionary
-    pass
+    results = {
+        'model': model.best_estimator_
+        'best_params': model.best_params_    
+        'best_k'. best_params_      
+        'cv_results_df': pd.Dataframe(model.cv_results_)
+    }
+    return results
